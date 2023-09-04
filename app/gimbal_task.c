@@ -300,6 +300,8 @@ gimbal_control_t gimbal_control;
 static int16_t yaw_can_set_current = 0, pitch_can_set_current = 0, shoot_can_set_current = 0;
 
 extern gimbal_behaviour_e gimbal_behaviour;
+
+extern uint16_t first_init_flag;
 /**
   * @brief          gimbal task, osDelay GIMBAL_CONTROL_TIME (1ms) 
   * @param[in]      pvParameters: null
@@ -399,7 +401,6 @@ void set_cali_gimbal_hook(const uint16_t yaw_offset, const uint16_t pitch_offset
     gimbal_control.gimbal_pitch_motor.min_relative_angle = min_pitch;
 }
 
-
 /**
   * @brief          gimbal cali calculate, return motor offset encode, max and min relative angle
   * @param[out]     yaw_offse:yaw middle place encode
@@ -435,6 +436,8 @@ bool_t cmd_cali_gimbal_hook(uint16_t *yaw_offset, uint16_t *pitch_offset, fp32 *
         gimbal_control.gimbal_cali.min_pitch_ecd    = gimbal_control.gimbal_pitch_motor.gimbal_motor_measure->ecd;
         gimbal_control.gimbal_cali.min_yaw          = gimbal_control.gimbal_yaw_motor.absolute_angle;
         gimbal_control.gimbal_cali.min_yaw_ecd      = gimbal_control.gimbal_yaw_motor.gimbal_motor_measure->ecd;
+				//保存进入时的ECD作为云台YAW中值
+				gimbal_control.gimbal_yaw_motor.offset_ecd  = gimbal_control.gimbal_yaw_motor.gimbal_motor_measure->ecd;//*yaw_offset;
         return 0;
     }
     else if (gimbal_control.gimbal_cali.step == GIMBAL_CALI_END_STEP)
@@ -444,10 +447,12 @@ bool_t cmd_cali_gimbal_hook(uint16_t *yaw_offset, uint16_t *pitch_offset, fp32 *
         (*min_yaw) += GIMBAL_CALI_REDUNDANT_ANGLE;
         (*max_pitch) -= GIMBAL_CALI_REDUNDANT_ANGLE;
         (*min_pitch) += GIMBAL_CALI_REDUNDANT_ANGLE;
-        gimbal_control.gimbal_yaw_motor.offset_ecd              = *yaw_offset;
-        gimbal_control.gimbal_yaw_motor.max_relative_angle      = *max_yaw;
-        gimbal_control.gimbal_yaw_motor.min_relative_angle      = *min_yaw;
-        gimbal_control.gimbal_pitch_motor.offset_ecd            = *pitch_offset;
+				//云台中值不调整，且最大角和最小角固定为2pi和0
+//				gimbal_control.gimbal_yaw_motor.offset_ecd  = gimbal_control.gimbal_yaw_motor.gimbal_motor_measure->ecd;//*yaw_offset;
+//        gimbal_control.gimbal_yaw_motor.offset_ecd              = *yaw_offset;
+        gimbal_control.gimbal_yaw_motor.max_relative_angle      = 2 * PI;//*max_yaw;
+        gimbal_control.gimbal_yaw_motor.min_relative_angle      = 0;//*min_yaw;
+        gimbal_control.gimbal_pitch_motor.offset_ecd            = *pitch_offset + 400;
         gimbal_control.gimbal_pitch_motor.max_relative_angle    = *max_pitch;
         gimbal_control.gimbal_pitch_motor.min_relative_angle    = *min_pitch;
         gimbal_control.gimbal_cali.step = 0;
@@ -550,10 +555,12 @@ static void calc_gimbal_cali(const gimbal_step_cali_t *gimbal_cali, uint16_t *ya
 
     ecd_format(temp_ecd);
 
-    *pitch_offset = temp_ecd;
+    *pitch_offset = temp_ecd + 300;
 
     *max_pitch = -motor_ecd_to_angle_change(gimbal_cali->max_pitch_ecd, *pitch_offset);
     *min_pitch = -motor_ecd_to_angle_change(gimbal_cali->min_pitch_ecd, *pitch_offset);
+		
+//		*pitch_offset += 400;
 
 #else
     temp_ecd = (int16_t)(gimbal_cali->max_pitch / MOTOR_ECD_TO_RAD);
@@ -725,7 +732,7 @@ static void gimbal_feedback_update(gimbal_control_t *feedback_update)
 
 #else
     feedback_update->gimbal_yaw_motor.relative_angle = motor_ecd_to_angle_change(feedback_update->gimbal_yaw_motor.gimbal_motor_measure->ecd,
-                                                                                        feedback_update->gimbal_yaw_motor.offset_ecd);
+                                                                                        feedback_update->gimbal_yaw_motor.gimbal_motor_measure->ecd);
 #endif
     feedback_update->gimbal_yaw_motor.motor_gyro = arm_cos_f32(feedback_update->gimbal_pitch_motor.relative_angle) * (*(feedback_update->gimbal_INT_gyro_point + INS_GYRO_Z_ADDRESS_OFFSET))
                                                         - arm_sin_f32(feedback_update->gimbal_pitch_motor.relative_angle) * (*(feedback_update->gimbal_INT_gyro_point + INS_GYRO_X_ADDRESS_OFFSET));
@@ -860,6 +867,7 @@ static void gimbal_set_control(gimbal_control_t *set_control)
         gimbal_relative_angle_limit(&set_control->gimbal_pitch_motor, add_pitch_angle);
     }
 }
+
 /**
   * @brief          gimbal control mode :GIMBAL_MOTOR_GYRO, use euler angle calculated by gyro sensor to control. 
   * @param[out]     gimbal_motor: yaw motor or pitch motor
@@ -878,28 +886,33 @@ static void gimbal_absolute_angle_limit(gimbal_motor_t *gimbal_motor, fp32 add)
     {
         return;
     }
-    //now angle error
-    //当前控制误差角度
-    bias_angle = rad_format(gimbal_motor->absolute_angle_set - gimbal_motor->absolute_angle);
-    //relative angle + angle error + add_angle > max_relative angle
-    //云台相对角度+ 误差角度 + 新增角度 如果大于 最大机械角度
-    if (gimbal_motor->relative_angle + bias_angle + add > gimbal_motor->max_relative_angle)
-    {
-        //如果是往最大机械角度控制方向
-        if (add > 0.0f)
-        {
-            //calculate max add_angle
-            //计算出一个最大的添加角度，
-            add = gimbal_motor->max_relative_angle - gimbal_motor->relative_angle - bias_angle;
-        }
-    }
-    else if (gimbal_motor->relative_angle + bias_angle + add < gimbal_motor->min_relative_angle)
-    {
-        if (add < 0.0f)
-        {
-            add = gimbal_motor->min_relative_angle - gimbal_motor->relative_angle - bias_angle;
-        }
-    }
+		//YAW无限制
+		if (gimbal_motor == &gimbal_control.gimbal_pitch_motor)
+		{
+				//now angle error
+				//当前控制误差角度
+				bias_angle = rad_format(gimbal_motor->absolute_angle_set - gimbal_motor->absolute_angle);
+				//relative angle + angle error + add_angle > max_relative angle
+				//云台相对角度+ 误差角度 + 新增角度 如果大于 最大机械角度
+				if (gimbal_motor->relative_angle + bias_angle + add > gimbal_motor->max_relative_angle)
+				{
+						//如果是往最大机械角度控制方向
+						if (add > 0.0f)
+						{
+								//calculate max add_angle
+								//计算出一个最大的添加角度，
+								add = gimbal_motor->max_relative_angle - gimbal_motor->relative_angle - bias_angle;
+						}
+				}
+				else if (gimbal_motor->relative_angle + bias_angle + add < gimbal_motor->min_relative_angle)
+				{
+						if (add < 0.0f)
+						{
+								add = gimbal_motor->min_relative_angle - gimbal_motor->relative_angle - bias_angle;
+						}
+				}				
+		}
+
     angle_set = gimbal_motor->absolute_angle_set;
     gimbal_motor->absolute_angle_set = rad_format(angle_set + add);
 }
@@ -920,15 +933,20 @@ static void gimbal_relative_angle_limit(gimbal_motor_t *gimbal_motor, fp32 add)
         return;
     }
     gimbal_motor->relative_angle_set += add;
-    //是否超过最大 最小值
-    if (gimbal_motor->relative_angle_set > gimbal_motor->max_relative_angle)
-    {
-        gimbal_motor->relative_angle_set = gimbal_motor->max_relative_angle;
-    }
-    else if (gimbal_motor->relative_angle_set < gimbal_motor->min_relative_angle)
-    {
-        gimbal_motor->relative_angle_set = gimbal_motor->min_relative_angle;
-    }
+				//YAW无限制
+		if (gimbal_motor == &gimbal_control.gimbal_pitch_motor)
+		{
+			//是否超过最大 最小值
+			if (gimbal_motor->relative_angle_set > gimbal_motor->max_relative_angle)
+			{
+					gimbal_motor->relative_angle_set = gimbal_motor->max_relative_angle;
+			}
+			else if (gimbal_motor->relative_angle_set < gimbal_motor->min_relative_angle)
+			{
+					gimbal_motor->relative_angle_set = gimbal_motor->min_relative_angle;
+			}
+		}
+
 }
 
 

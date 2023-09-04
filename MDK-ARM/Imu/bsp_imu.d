@@ -24,6 +24,9 @@ imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
+imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h
+imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h
+imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h
 imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h
 imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 imu\bsp_imu.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
@@ -38,6 +41,7 @@ imu\bsp_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 imu\bsp_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 imu\bsp_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 imu\bsp_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+imu\bsp_imu.o: ../board/bsp_imu_pwm.h
 imu\bsp_imu.o: ../app/struct_typedef.h
 imu\bsp_imu.o: bsp\ist8310_reg.h
 imu\bsp_imu.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
@@ -60,3 +64,7 @@ imu\bsp_imu.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 imu\bsp_imu.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 imu\bsp_imu.o: ../components/algorithm/ahrs.h
 imu\bsp_imu.o: ../components/algorithm/AHRS_MiddleWare.h
+imu\bsp_imu.o: ../components/controller/pid.h
+imu\bsp_imu.o: ../app/calibrate_task.h
+imu\bsp_imu.o: ../components/algorithm/user_lib.h
+imu\bsp_imu.o: ../Inc/usart.h

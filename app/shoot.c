@@ -17,7 +17,7 @@
 
 #include "shoot.h"
 #include "main.h"
-
+#include "bsp_laser.h"
 #include "cmsis_os.h"
 #include "bsp_fric.h"
 #include "arm_math.h"
@@ -136,6 +136,7 @@ int16_t shoot_control_loop(void)
         }
         else
         {
+						PID_clear(&shoot_control.trigger_motor_pid);
             shoot_control.trigger_speed_set = 0.0f;
             shoot_control.speed_set = 0.0f;
         }
@@ -166,7 +167,7 @@ int16_t shoot_control_loop(void)
 
     if(shoot_control.shoot_mode == SHOOT_STOP)
     {
-//        shoot_laser_off();
+        shoot_laser_off();
         shoot_control.given_current = 0;
         //摩擦轮需要一个个斜波开启，不能同时直接开启，否则可能电机不转
         ramp_calc(&shoot_control.fric1_ramp, -SHOOT_FRIC_PWM_ADD_VALUE);
@@ -174,7 +175,7 @@ int16_t shoot_control_loop(void)
     }
     else
     {
-//        shoot_laser_on(); //激光开启
+        shoot_laser_on(); //激光开启
         //计算拨弹轮电机PID
         PID_calc(&shoot_control.trigger_motor_pid, shoot_control.speed, shoot_control.speed_set);
         shoot_control.given_current = (int16_t)(shoot_control.trigger_motor_pid.out);
@@ -402,8 +403,8 @@ static void shoot_feedback_update(void)
     }
     else
     {
-        shoot_control.fric1_ramp.max_value = FRIC_DOWN_MIN;
-        shoot_control.fric2_ramp.max_value = FRIC_DOWN_MIN;
+        shoot_control.fric1_ramp.max_value = FRIC_UP_UP;
+        shoot_control.fric2_ramp.max_value = FRIC_UP_UP;
     }
 
 

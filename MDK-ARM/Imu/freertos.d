@@ -32,6 +32,9 @@ imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
+imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h
+imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h
+imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h
 imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h
 imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 imu\freertos.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
@@ -53,6 +56,7 @@ imu\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 imu\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 imu\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 imu\freertos.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+imu\freertos.o: ../board/bsp_imu_pwm.h
 imu\freertos.o: ../app/struct_typedef.h
 imu\freertos.o: ../app/calibrate_task.h
 imu\freertos.o: ../app/gimbal_task.h
@@ -60,3 +64,4 @@ imu\freertos.o: ../app/CAN_receive.h
 imu\freertos.o: ../components/controller/pid.h
 imu\freertos.o: ../app/remote_control.h
 imu\freertos.o: ./bsp/bsp_rc.h
+imu\freertos.o: ../app/voltage_task.h

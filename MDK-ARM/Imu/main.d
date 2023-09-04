@@ -23,6 +23,9 @@ imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
+imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h
+imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h
+imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h
 imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h
 imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 imu\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
@@ -47,6 +50,7 @@ imu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 imu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 imu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 imu\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+imu\main.o: ../Inc/adc.h
 imu\main.o: ../Inc/can.h
 imu\main.o: ../Inc/dma.h
 imu\main.o: ../Inc/spi.h
@@ -59,6 +63,7 @@ imu\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 imu\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 imu\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 imu\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+imu\main.o: ../board/bsp_imu_pwm.h
 imu\main.o: ../app/struct_typedef.h
 imu\main.o: ../app/calibrate_task.h
 imu\main.o: ../app/remote_control.h

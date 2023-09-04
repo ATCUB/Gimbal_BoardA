@@ -273,8 +273,9 @@ static void gimbal_relative_angle_control(fp32 *yaw, fp32 *pitch, gimbal_control
 static void gimbal_motionless_control(fp32 *yaw, fp32 *pitch, gimbal_control_t *gimbal_control_set);
 
 //云台行为状态机
-gimbal_behaviour_e gimbal_behaviour = GIMBAL_ZERO_FORCE;
-
+gimbal_behaviour_e gimbal_behaviour = GIMBAL_INIT;
+//陀螺仪初始化
+extern uint16_t first_init_flag;
 /**
   * @brief          the function is called by gimbal_set_mode function in gimbal_task.c
   *                 the function set gimbal_behaviour variable, and set motor mode.
@@ -466,7 +467,7 @@ static void gimbal_behavour_set(gimbal_control_t *gimbal_mode_set)
         static uint16_t init_time = 0;
         static uint16_t init_stop_time = 0;
         init_time++;
-        
+        gimbal_mode_set->gimbal_pitch_motor.relative_angle_set = 0.0f;
         if ((fabs(gimbal_mode_set->gimbal_yaw_motor.relative_angle - INIT_YAW_SET) < GIMBAL_INIT_ANGLE_ERROR &&
              fabs(gimbal_mode_set->gimbal_pitch_motor.absolute_angle - INIT_PITCH_SET) < GIMBAL_INIT_ANGLE_ERROR))
         {
@@ -474,7 +475,11 @@ static void gimbal_behavour_set(gimbal_control_t *gimbal_mode_set)
             if (init_stop_time < GIMBAL_INIT_STOP_TIME)
             {
                 init_stop_time++;
+								if (init_stop_time > GIMBAL_INIT_GYRO_TIME)
+										first_init_flag = 0;
             }
+						
+
         }
         else
         {
@@ -487,7 +492,7 @@ static void gimbal_behavour_set(gimbal_control_t *gimbal_mode_set)
 
         //超过初始化最大时间，或者已经稳定到中值一段时间，退出初始化状态开关打下档，或者掉线
         if (init_time < GIMBAL_INIT_TIME && init_stop_time < GIMBAL_INIT_STOP_TIME &&
-            !switch_is_down(gimbal_mode_set->gimbal_rc_ctrl->rc.s[GIMBAL_MODE_CHANNEL]) )
+            switch_is_down(gimbal_mode_set->gimbal_rc_ctrl->rc.s[GIMBAL_MODE_CHANNEL]) )
         {
             return;
         }
@@ -501,11 +506,11 @@ static void gimbal_behavour_set(gimbal_control_t *gimbal_mode_set)
     //开关控制 云台状态
     if (switch_is_down(gimbal_mode_set->gimbal_rc_ctrl->rc.s[GIMBAL_MODE_CHANNEL]))
     {
-        gimbal_behaviour = GIMBAL_ZERO_FORCE;
+				gimbal_behaviour = GIMBAL_ZERO_FORCE;
     }
     else if (switch_is_mid(gimbal_mode_set->gimbal_rc_ctrl->rc.s[GIMBAL_MODE_CHANNEL]))
     {
-        gimbal_behaviour = GIMBAL_RELATIVE_ANGLE;
+        gimbal_behaviour = GIMBAL_ABSOLUTE_ANGLE;
     }
     else if (switch_is_up(gimbal_mode_set->gimbal_rc_ctrl->rc.s[GIMBAL_MODE_CHANNEL]))
     {
@@ -527,8 +532,6 @@ static void gimbal_behavour_set(gimbal_control_t *gimbal_mode_set)
         }
         last_gimbal_behaviour = gimbal_behaviour;
     }
-
-
 
 }
 

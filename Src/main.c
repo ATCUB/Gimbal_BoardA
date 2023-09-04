@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "adc.h"
 #include "can.h"
 #include "dma.h"
 #include "spi.h"
@@ -110,6 +111,9 @@ int main(void)
   MX_USART1_UART_Init();
   MX_CAN1_Init();
   MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_ADC1_Init();
+  MX_UART7_Init();
   /* USER CODE BEGIN 2 */
 	led_off();
 	remote_control_init();	
@@ -122,6 +126,7 @@ int main(void)
 	HAL_GPIO_WritePin(POWER4_CTRL_GPIO_Port, POWER4_CTRL_Pin, GPIO_PIN_SET);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);    /* 开启PWM通道1  50Hz*/ 
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);    /* 开启PWM通道2  50KHz*/ 
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);    /* 开启PWM通道2  50KHz*/ 
 	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);    /* 开启PWM通道4  2.7KHz*/ 
   /* USER CODE END 2 */
 

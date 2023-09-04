@@ -41,7 +41,7 @@
 
 //yaw speed close-loop PID params, max out and max iout
 //yaw 速度环 PID参数以及 PID最大输出，积分输出
-#define YAW_SPEED_PID_KP        3600.0f
+#define YAW_SPEED_PID_KP        3300.0f
 #define YAW_SPEED_PID_KI        20.0f
 #define YAW_SPEED_PID_KD        0.0f
 #define YAW_SPEED_PID_MAX_OUT   30000.0f
@@ -66,19 +66,19 @@
 
 //pitch encode angle close-loop PID params, max out and max iout
 //pitch 角度环 角度由编码器 PID参数以及 PID最大输出，积分输出
-#define PITCH_ENCODE_RELATIVE_PID_KP 15.0f
-#define PITCH_ENCODE_RELATIVE_PID_KI 0.00f
-#define PITCH_ENCODE_RELATIVE_PID_KD 0.0f
+#define PITCH_ENCODE_RELATIVE_PID_KP 8.0f
+#define PITCH_ENCODE_RELATIVE_PID_KI 0.0f
+#define PITCH_ENCODE_RELATIVE_PID_KD 0.8f
 
-#define PITCH_ENCODE_RELATIVE_PID_MAX_OUT 10.0f
+#define PITCH_ENCODE_RELATIVE_PID_MAX_OUT 15.0f
 #define PITCH_ENCODE_RELATIVE_PID_MAX_IOUT 0.0f
 
 //yaw encode angle close-loop PID params, max out and max iout
 //yaw 角度环 角度由编码器 PID参数以及 PID最大输出，积分输出
-#define YAW_ENCODE_RELATIVE_PID_KP        8.0f
+#define YAW_ENCODE_RELATIVE_PID_KP        10.5f
 #define YAW_ENCODE_RELATIVE_PID_KI        0.0f
 #define YAW_ENCODE_RELATIVE_PID_KD        0.0f
-#define YAW_ENCODE_RELATIVE_PID_MAX_OUT   10.0f
+#define YAW_ENCODE_RELATIVE_PID_MAX_OUT   12.0f
 #define YAW_ENCODE_RELATIVE_PID_MAX_IOUT  0.0f
 
 
@@ -125,19 +125,20 @@
 #define ECD_RANGE       8191
 //云台初始化回中值，允许的误差,并且在误差范围内停止一段时间以及最大时间8s后解除初始化状态，
 #define GIMBAL_INIT_ANGLE_ERROR     0.1f
-#define GIMBAL_INIT_STOP_TIME       100
+#define GIMBAL_INIT_STOP_TIME       5000
+#define GIMBAL_INIT_GYRO_TIME       4000
 #define GIMBAL_INIT_TIME            8000
 #define GIMBAL_CALI_REDUNDANT_ANGLE 0.1f
 //云台初始化回中值的速度以及控制到的角度
-#define GIMBAL_INIT_PITCH_SPEED     0.004f
-#define GIMBAL_INIT_YAW_SPEED       0.005f
+#define GIMBAL_INIT_PITCH_SPEED     0.003f
+#define GIMBAL_INIT_YAW_SPEED       0.001f
 
 #define INIT_YAW_SET    0.0f
 #define INIT_PITCH_SET  0.0f
 
 //云台校准中值的时候，发送原始电流值，以及堵转时间，通过陀螺仪判断堵转
 #define GIMBAL_CALI_MOTOR_SET   18000
-#define GIMBAL_CALI_MOTOR_SET_YAW   8000
+#define GIMBAL_CALI_MOTOR_SET_YAW   0
 #define GIMBAL_CALI_STEP_TIME   2000
 #define GIMBAL_CALI_GYRO_LIMIT  0.1f
 

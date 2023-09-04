@@ -28,6 +28,7 @@
 #include "bsp_imu.h"
 #include "calibrate_task.h"
 #include "gimbal_task.h"
+#include "voltage_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,6 +51,7 @@
 osThreadId imuTaskHandle;
 osThreadId calibrate_tast_handle;
 osThreadId gimbalTaskHandle;
+osThreadId battery_voltage_handle;
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 
@@ -119,6 +121,9 @@ void MX_FREERTOS_Init(void) {
 	
 	osThreadDef(gimbalTask, gimbal_task, osPriorityHigh, 0, 512);
 	gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
+	
+	osThreadDef(BATTERY_VOLTAGE, battery_voltage_task, osPriorityNormal, 0, 128);
+	battery_voltage_handle = osThreadCreate(osThread(BATTERY_VOLTAGE), NULL);
   /* USER CODE END RTOS_THREADS */
 
 }

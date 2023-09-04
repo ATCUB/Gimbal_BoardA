@@ -5,7 +5,7 @@
 #define SINGLE_MOVE_MODE
 
 #ifdef SINGLE_MOVE_MODE
-#define FRIC_UP_MAX 1650
+#define FRIC_UP_MAX 1950
 #define FRIC_UP_UP 1650
 #define FRIC_UP 1400
 #define FRIC_DOWN 1320

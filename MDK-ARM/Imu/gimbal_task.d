@@ -30,6 +30,9 @@ imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
+imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h
+imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h
+imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h
 imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h
 imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 imu\gimbal_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
@@ -44,6 +47,7 @@ imu\gimbal_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 imu\gimbal_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 imu\gimbal_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 imu\gimbal_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+imu\gimbal_task.o: ../board/bsp_imu_pwm.h
 imu\gimbal_task.o: ../Inc/main.h
 imu\gimbal_task.o: ..\app\shoot.h
 imu\gimbal_task.o: ../components/algorithm/user_lib.h

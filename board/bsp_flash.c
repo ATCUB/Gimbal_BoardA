@@ -37,6 +37,7 @@ void flash_erase_address(uint32_t address, uint16_t len)
     flash_erase.NbSectors = len;
 
     HAL_FLASH_Unlock();
+	  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
     HAL_FLASHEx_Erase(&flash_erase, &error);
     HAL_FLASH_Lock();
 }

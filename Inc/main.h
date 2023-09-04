@@ -58,6 +58,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define IMU_INT_Pin GPIO_PIN_8
 #define IMU_INT_GPIO_Port GPIOB
+#define LAZER_Pin GPIO_PIN_13
+#define LAZER_GPIO_Port GPIOG
 #define POWER1_CTRL_Pin GPIO_PIN_2
 #define POWER1_CTRL_GPIO_Port GPIOH
 #define POWER2_CTRL_Pin GPIO_PIN_3

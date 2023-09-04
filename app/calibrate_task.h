@@ -160,7 +160,7 @@
 #define RC_CALI_VALUE_HOLE          600     //remote control threshold, the max value of remote control channel is 660. 
 
 
-#define GYRO_CALIBRATE_TIME         10000   //gyro calibrate time,陀螺仪校准时间
+#define GYRO_CALIBRATE_TIME         20000   //gyro calibrate time,陀螺仪校准时间
 
 //cali device name
 typedef enum

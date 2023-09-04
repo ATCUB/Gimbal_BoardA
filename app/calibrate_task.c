@@ -99,7 +99,7 @@
 #include "string.h"
 #include "cmsis_os.h"
 
-//#include "bsp_adc.h"
+#include "bsp_adc.h"
 #include "bsp_buzzer.h"
 #include "bsp_flash.h"
 
@@ -403,11 +403,11 @@ static void RC_cmd_to_calibrate(void)
         rc_cmd_time = 0;
         cali_sensor[CALI_GYRO].cali_cmd = 1;
         //update control temperature
-//        head_cali.temperature = (int8_t)(cali_get_mcu_temperature()) + 10;
-//        if (head_cali.temperature > (int8_t)(GYRO_CONST_MAX_TEMP))
-//        {
-//            head_cali.temperature = (int8_t)(GYRO_CONST_MAX_TEMP);
-//        }
+        head_cali.temperature = (int8_t)(cali_get_mcu_temperature()) + 10;
+        if (head_cali.temperature > (int8_t)(GYRO_CONST_MAX_TEMP))
+        {
+            head_cali.temperature = (int8_t)(GYRO_CONST_MAX_TEMP);
+        }
         cali_buzzer_off();
     }
     else if (rc_action_flag == CHASSIS_FLAG && rc_cmd_time > RC_CMD_LONG_TIME)
@@ -566,7 +566,7 @@ static void cali_data_read(void)
         }
 				
 				//陀螺仪上电校准
-				cali_sensor[2].cali_cmd = 1;
+//				cali_sensor[2].cali_cmd = 1;
     }
 }
 
@@ -635,12 +635,12 @@ static bool_t cali_head_hook(uint32_t *cali, bool_t cmd)
     // self id
     local_cali_t->self_id = SELF_ID;
     //imu control temperature
-//    local_cali_t->temperature = (int8_t)(cali_get_mcu_temperature()) + 10;
-//    //head_cali.temperature = (int8_t)(cali_get_mcu_temperature()) + 10;
-//    if (local_cali_t->temperature > (int8_t)(GYRO_CONST_MAX_TEMP))
-//    {
-//        local_cali_t->temperature = (int8_t)(GYRO_CONST_MAX_TEMP);
-//    }
+    local_cali_t->temperature = (int8_t)(cali_get_mcu_temperature()) + 10;
+    //head_cali.temperature = (int8_t)(cali_get_mcu_temperature()) + 10;
+    if (local_cali_t->temperature > (int8_t)(GYRO_CONST_MAX_TEMP))
+    {
+        local_cali_t->temperature = (int8_t)(GYRO_CONST_MAX_TEMP);
+    }
     
     local_cali_t->firmware_version = FIRMWARE_VERSION;
     //shenzhen latitude 

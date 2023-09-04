@@ -13,8 +13,11 @@
 #define __MPU_H__
 
 #include "mytype.h"
+#include "bsp_imu_pwm.h"
 #include "struct_typedef.h"
 #define MPU_DELAY(x) HAL_Delay(x)
+
+#define IST8310
 
 #define INS_TASK_INIT_TIME 7 //任务开始初期 delay 一段时间
 
@@ -36,10 +39,25 @@
 #define INS_ACCEL_Y_ADDRESS_OFFSET 1
 #define INS_ACCEL_Z_ADDRESS_OFFSET 2
 
-#define BMI088_ACCEL_SEN 0.009159171875f
+#define BMI088_ACCEL_SEN 0.0045528671116f
 
 #define BMI088_TEMP_OFFSET 21
 #define BMI088_TEMP_FACTOR 333.87f
+
+#define GYRO_DEADZONE 0.0001f
+
+#define MAG_SEN 0.3f
+
+#define TEMPERATURE_PID_KP 1600.0f //温度控制PID的kp
+#define TEMPERATURE_PID_KI 0.2f    //温度控制PID的ki
+#define TEMPERATURE_PID_KD 0.0f    //温度控制PID的kd
+
+#define TEMPERATURE_PID_MAX_OUT   4500.0f //温度控制PID的max_out
+#define TEMPERATURE_PID_MAX_IOUT 4400.0f  //温度控制PID的max_iout
+
+#define MPU6500_TEMP_PWM_MAX 5000 //mpu6500控制温度的设置TIM的重载值，即给PWM最大为 MPU6500_TEMP_PWM_MAX - 1
+
+#define IMU_temp_PWM(pwm)  imu_pwm_set(pwm)                    //pwm给定
 
 typedef struct
 {
@@ -106,20 +124,21 @@ typedef struct ist8310_real_data_t
   fp32 mag[3];
 } ist8310_real_data_t;
 
+
 extern mpu_data_t mpu_data;
 extern imu_t      imu;
 
 uint8_t   mpu_device_init(void);
-void init_quaternion(void);
 void mpu_get_data(void);
-void imu_ahrs_update(void);
-void imu_attitude_update(void);
-void mpu_offset_call(void);
-void imuTask(void const * argument);
+void ist8310_get_data(uint8_t* buff);
 void INS_task(void const *pvParameters);
 void gyro_offset_calc(fp32 gyro_offset[3], fp32 gyro[3], uint16_t *offset_time_count);
 void INS_cali_gyro(fp32 cali_scale[3], fp32 cali_offset[3], uint16_t *time_count);
 void INS_set_cali_gyro(fp32 cali_scale[3], fp32 cali_offset[3]);
+void imu_attitude_update(void);
+void init_quaternion(void);
+void imu_ahrs_update(void);
+void imu_attitude_update(void);
 
 /**
   * @brief          get the quat

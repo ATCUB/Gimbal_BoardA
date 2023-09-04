@@ -256,8 +256,8 @@ static void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl)
     rc_ctrl->rc.ch[2] = ((sbus_buf[2] >> 6) | (sbus_buf[3] << 2) |          //!< Channel 2
                          (sbus_buf[4] << 10)) &0x07ff;
     rc_ctrl->rc.ch[3] = ((sbus_buf[4] >> 1) | (sbus_buf[5] << 7)) & 0x07ff; //!< Channel 3
-    rc_ctrl->rc.s[0] = ((sbus_buf[5] >> 4) & 0x0003);                  //!< Switch left
-    rc_ctrl->rc.s[1] = ((sbus_buf[5] >> 4) & 0x000C) >> 2;                       //!< Switch right
+    rc_ctrl->rc.s[0] = ((sbus_buf[5] >> 4) & 0x0003);                  			//!< Switch right
+    rc_ctrl->rc.s[1] = ((sbus_buf[5] >> 4) & 0x000C) >> 2;                  //!< Switch left
     rc_ctrl->mouse.x = sbus_buf[6] | (sbus_buf[7] << 8);                    //!< Mouse X axis
     rc_ctrl->mouse.y = sbus_buf[8] | (sbus_buf[9] << 8);                    //!< Mouse Y axis
     rc_ctrl->mouse.z = sbus_buf[10] | (sbus_buf[11] << 8);                  //!< Mouse Z axis
@@ -286,13 +286,13 @@ static void sbus_to_rc(volatile const uint8_t *sbus_buf, RC_ctrl_t *rc_ctrl)
 void sbus_to_usart6(uint8_t *sbus)
 {
     static uint8_t usart_tx_buf[20];
-    static uint8_t i =0;
+//    static uint8_t i =0;
 //    usart_tx_buf[0] = 0xA6;
     memcpy(usart_tx_buf, sbus, 18);
-    for(i = 0, usart_tx_buf[18] = 0; i < 18; i++)
-    {
-        usart_tx_buf[18] += usart_tx_buf[i];
-    }
+//    for(i = 0, usart_tx_buf[18] = 0; i < 18; i++)
+//    {
+//        usart_tx_buf[18] += usart_tx_buf[i];
+//    }
 //    usart6_tx_dma_enable(usart_tx_buf, 20);
 		HAL_UART_Transmit(&huart6, usart_tx_buf, 18, 100);
 }

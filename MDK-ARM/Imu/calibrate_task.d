@@ -18,6 +18,7 @@ imu\calibrate_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.
 imu\calibrate_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 imu\calibrate_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 imu\calibrate_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+imu\calibrate_task.o: ../board/bsp_adc.h
 imu\calibrate_task.o: ./bsp/bsp_buzzer.h
 imu\calibrate_task.o: ../board/bsp_flash.h
 imu\calibrate_task.o: ..\app\can_receive.h
@@ -46,6 +47,9 @@ imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
+imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h
+imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h
+imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h
 imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h
 imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
@@ -59,5 +63,6 @@ imu\calibrate_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 imu\calibrate_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 imu\calibrate_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 imu\calibrate_task.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+imu\calibrate_task.o: ../board/bsp_imu_pwm.h
 imu\calibrate_task.o: ..\app\gimbal_task.h
 imu\calibrate_task.o: ../components/controller/pid.h
