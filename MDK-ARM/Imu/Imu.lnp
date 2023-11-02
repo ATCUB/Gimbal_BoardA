@@ -60,6 +60,7 @@
 "imu\calibrate_task.o"
 "imu\shoot.o"
 "imu\voltage_task.o"
+"imu\sound_effects_task.o"
 "imu\pid.o"
 "..\components\algorithm\AHRS.lib"
 "imu\ahrs_middleware.o"

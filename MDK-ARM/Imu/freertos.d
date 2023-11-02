@@ -65,3 +65,6 @@ imu\freertos.o: ../components/controller/pid.h
 imu\freertos.o: ../app/remote_control.h
 imu\freertos.o: ./bsp/bsp_rc.h
 imu\freertos.o: ../app/voltage_task.h
+imu\freertos.o: ../app/sound_effects_task.h
+imu\freertos.o: ./bsp/bsp_buzzer.h
+imu\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h

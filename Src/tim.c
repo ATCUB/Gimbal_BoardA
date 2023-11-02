@@ -148,6 +148,7 @@ void MX_TIM12_Init(void)
 
   /* USER CODE END TIM12_Init 0 */
 
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
 
   /* USER CODE BEGIN TIM12_Init 1 */
@@ -159,6 +160,15 @@ void MX_TIM12_Init(void)
   htim12.Init.Period = 50000;
   htim12.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim12.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim12) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim12, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   if (HAL_TIM_PWM_Init(&htim12) != HAL_OK)
   {
     Error_Handler();
@@ -203,12 +213,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
 
   /* USER CODE END TIM3_MspInit 1 */
   }
-}
-
-void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* tim_pwmHandle)
-{
-
-  if(tim_pwmHandle->Instance==TIM12)
+  else if(tim_baseHandle->Instance==TIM12)
   {
   /* USER CODE BEGIN TIM12_MspInit 0 */
 
@@ -315,12 +320,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 
   /* USER CODE END TIM3_MspDeInit 1 */
   }
-}
-
-void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* tim_pwmHandle)
-{
-
-  if(tim_pwmHandle->Instance==TIM12)
+  else if(tim_baseHandle->Instance==TIM12)
   {
   /* USER CODE BEGIN TIM12_MspDeInit 0 */
 

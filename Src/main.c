@@ -126,8 +126,7 @@ int main(void)
 	HAL_GPIO_WritePin(POWER4_CTRL_GPIO_Port, POWER4_CTRL_Pin, GPIO_PIN_SET);
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);    /* 开启PWM通道1  50Hz*/ 
 	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);    /* 开启PWM通道2  50KHz*/ 
-	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);    /* 开启PWM通道2  50KHz*/ 
-	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);    /* 开启PWM通道4  2.7KHz*/ 
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);    /* 开启PWM通道2  50KHz*/  
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
